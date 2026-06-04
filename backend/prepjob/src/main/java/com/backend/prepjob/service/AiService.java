@@ -178,6 +178,43 @@ public class AiService {
                 - preparationPlan must be day-wise starting from day 1.
                 - Give a elaborated preparation plan and keeping achievable targets on a single day, please don't put .
                 multiple technologies to be learnt in a single day.
+                - preparationPlan must be a realistic day-by-day roadmap.
+                
+                - Assume the candidate can dedicate approximately 2-4 hours per day for preparation.
+                
+                - Each day should focus on only ONE major topic or ONE closely related subtopic.
+                
+                - Large topics such as Node.js, React, Spring Boot, System Design, SQL, PostgreSQL, Microservices, Docker, Kubernetes, etc. must be spread across multiple days.
+                
+                - Do NOT assume a candidate can master an entire technology in a single day.
+                
+                - For beginner or intermediate level topics, allocate multiple consecutive days covering:
+                  1. Fundamentals
+                  2. Intermediate concepts
+                  3. Advanced concepts
+                  4. Hands-on practice
+                  5. Revision and mock interview questions
+                
+                - Every task should be realistically achievable within a single day.
+                
+                - The roadmap should build progressively from fundamentals to advanced concepts.
+                
+                - If a technology requires 5-10 days of preparation, distribute it across 5-10 separate days.
+                
+                - Include dedicated revision days and mock interview practice days.
+                
+                - Do not combine unrelated technologies in the same day.
+                
+                - For example:
+                  Day 1: Node.js fundamentals
+                  Day 2: Node.js modules and async programming
+                  Day 3: Express.js basics
+                  Day 4: Express.js middleware and routing
+                  Day 5: Build a small REST API
+                  Day 6: SQL fundamentals
+                  Day 7: SQL joins and aggregations
+                
+                - The preparation plan should continue until all identified skill gaps are addressed.
                 - Return only JSON.
                 - Do not include markdown.
                 - Do not include explanation outside JSON.
