@@ -62,10 +62,10 @@ public class AuthService {
         ResponseCookie cookie = ResponseCookie
                 .from("token", token)
                 .httpOnly(true)
-                .secure(false) // true in production with HTTPS
+                .secure(true) // true in production with HTTPS
                 .path("/")
                 .maxAge(Duration.ofDays(1))
-                .sameSite("Lax")
+                .sameSite("None")
                 .build();
 
         return ResponseEntity
