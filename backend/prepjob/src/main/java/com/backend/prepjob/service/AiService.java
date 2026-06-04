@@ -175,6 +175,27 @@ public class AiService {
                 - technicalQuestions must contain interview technical questions with intention and answer, give all the possible technical questions.
                 - behavioralQuestions must contain behavioral interview questions with intention and answer, give all the behaviourdla questions.
                 - skillGaps severity must be only one of: low, medium, high and please analyse all the gaps.
+                Skill gaps must be derived only from the job description requirements that are missing or weak in the resume/self description.
+                
+                Do not invent new skill gaps.
+                
+                Before adding a skill gap, verify:
+                1. The skill is clearly required or strongly implied by the job description.
+                2. The resume/self description does not show sufficient evidence of that skill.
+                3. The gap is relevant for interview preparation.
+                
+                Return at most 5-8 most important skill gaps.
+                
+                Use consistent skill names. For example, do not return "Databases" once and "SQL/PostgreSQL" another time. Prefer specific skills from the job description.
+                
+                Severity rules:
+                - high: core requirement in job description and missing from candidate profile
+                - medium: important requirement but partially present in candidate profile
+                - low: nice-to-have or weakly implied requirement
+                
+                For every skill gap, include evidence from the job description and evidence from the candidate profile.
+                If evidence cannot be found, do not include that skill gap.
+                
                 - preparationPlan must be day-wise starting from day 1.
                 - Give a elaborated preparation plan and keeping achievable targets on a single day, please don't put .
                 multiple technologies to be learnt in a single day.
@@ -215,6 +236,9 @@ public class AiService {
                   Day 7: SQL joins and aggregations
                 
                 - The preparation plan should continue until all identified skill gaps are addressed.
+                - Prioritize technologies based on interview importance and skill-gap severity.
+                - High severity skill gaps should appear earlier in the roadmap.
+                - Low severity gaps can appear later.
                 - Return only JSON.
                 - Do not include markdown.
                 - Do not include explanation outside JSON.
@@ -228,7 +252,8 @@ public class AiService {
                 ),
                 "generationConfig", Map.of(
                         "responseMimeType", "application/json",
-                        "responseSchema", interviewReportResponseSchema()
+                        "responseSchema", interviewReportResponseSchema(),
+                        "temperature", 0.1
                 )
         );
 
@@ -586,7 +611,8 @@ public class AiService {
                 ),
                 "generationConfig", Map.of(
                         "responseMimeType", "application/json",
-                        "responseSchema", resumeHtmlResponseSchema()
+                        "responseSchema", resumeHtmlResponseSchema(),
+                        "temperature", 0.6
                 )
         );
 
