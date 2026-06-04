@@ -14,6 +14,7 @@ const Home = () => {
   const resumeInputRef = useRef();
   const navigate = useNavigate();
   const { showToast } = useToast();
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleGenerateReport = async () => {
     try {
@@ -136,8 +137,10 @@ const Home = () => {
                   </svg>
                 </span>
                 <p className="dropzone__title">
-                  Click to upload or drag &amp; drop
-                </p>
+  {selectedFile
+    ? selectedFile.name
+    : "Click to upload or drag & drop"}
+</p>
                 <p className="dropzone__subtitle">PDF or DOCX (Max 5MB)</p>
                 <input
                   ref={resumeInputRef}
@@ -146,6 +149,10 @@ const Home = () => {
                   id="resume"
                   name="resume"
                   accept=".pdf,.docx"
+                  onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  setSelectedFile(file);
+        }}
                 />
               </label>
             </div>
@@ -262,13 +269,7 @@ const Home = () => {
           </ul>
         </section>
       )}
-
-      {/* Page Footer */}
-      <footer className="page-footer">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-        <a href="#">Help Center</a>
-      </footer>
+      
     </div>
   );
 };
