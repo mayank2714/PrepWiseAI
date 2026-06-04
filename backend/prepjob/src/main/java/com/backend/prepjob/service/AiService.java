@@ -172,10 +172,12 @@ public class AiService {
                 
                 Rules:
                 - matchScore must be a number between 0 and 100.
-                - technicalQuestions must contain interview technical questions with intention and answer.
-                - behavioralQuestions must contain behavioral interview questions with intention and answer.
-                - skillGaps severity must be only one of: low, medium, high.
+                - technicalQuestions must contain interview technical questions with intention and answer, give all the possible technical questions.
+                - behavioralQuestions must contain behavioral interview questions with intention and answer, give all the behaviourdla questions.
+                - skillGaps severity must be only one of: low, medium, high and please analyse all the gaps.
                 - preparationPlan must be day-wise starting from day 1.
+                - Give a elaborated preparation plan and keeping achievable targets on a single day, please don't put .
+                multiple technologies to be learnt in a single day.
                 - Return only JSON.
                 - Do not include markdown.
                 - Do not include explanation outside JSON.
@@ -470,6 +472,7 @@ public class AiService {
                                                          * Use concise bullet points (maximum 1 line each when possible).
                                                          * Maximum 4 bullet points per job/project.
                                                          * Maximum 10 skills.
+                                                         * Keep the job description in the context while creating the resume.
                 
                                                          HTML/CSS REQUIREMENTS:
                 
