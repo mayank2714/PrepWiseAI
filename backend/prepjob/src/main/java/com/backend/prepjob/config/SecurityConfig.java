@@ -40,7 +40,8 @@ public class SecurityConfig {
                                 "/api/auth/logout",
                                 "/api/report/",
                                 "/api/report/allReports",
-                                "/api/report/downloadResume/**"
+                                "/api/report/downloadResume/**",
+                                "/api/health"
                         ).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
