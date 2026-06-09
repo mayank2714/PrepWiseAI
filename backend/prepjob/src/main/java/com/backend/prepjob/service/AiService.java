@@ -354,11 +354,14 @@ public class AiService {
                 .getAuthentication();
 
 
-        String username = authentication.getName();
+        String email = authentication.getName();
         User user = userRepo
-                .findByUsername(username)
+                .findByEmail(email)
                 .orElseThrow(() ->
                         new RuntimeException("User not found"));
+
+//        if (user.getPlan().equals("FREE") && user.getReportsUsed() >= 3)
+//            throw new RuntimeException("Free limit exhausted, upgrade to pro");
 
         String userId = user.getId();
 
@@ -378,6 +381,8 @@ public class AiService {
         interviewReport.setUserId(userId);
         interviewReport.setCreatedAt(LocalDateTime.now());
         InterviewReports savedReport = reportRepo.save(interviewReport);
+//        user.setReportsUsed(user.getReportsUsed() + 1);
+        userRepo.save(user);
 
         return mapToReportResponse(savedReport);
     }
@@ -399,9 +404,9 @@ public class AiService {
                 .getAuthentication();
 
 
-        String username = authentication.getName();
+        String email = authentication.getName();
         User user = userRepo
-                .findByUsername(username)
+                .findByEmail(email)
                 .orElseThrow(() ->
                         new RuntimeException("User not found"));
 
@@ -421,9 +426,9 @@ public class AiService {
                 .getAuthentication();
 
 
-        String username = authentication.getName();
+        String email = authentication.getName();
         User user = userRepo
-                .findByUsername(username)
+                .findByEmail(email)
                 .orElseThrow(() ->
                         new RuntimeException("User not found"));
 

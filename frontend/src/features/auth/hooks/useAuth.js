@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../context/authContext";
-import { login, register, logout, getMyProfile } from "../services/authService";
+import { login, sendOtp, logout, getMyProfile, verifyOtpAndRegisterUser } from "../services/authService";
 
 
 
@@ -22,15 +22,25 @@ export const useAuth = () => {
         }
     }
 
-    const handleRegister = async ({ username, email, password }) => {
+    const handleSendOtp = async ( {email} ) => {
         setLoading(true)
         try {
-            const data = await register({ username, email, password })
-            setUser(data.user)
+            await sendOtp( {email} );
         } catch (err) {
-            throw new Error('Registration failed')
+            throw new Error('Failed to send OTP')
         } finally {
             setLoading(false)
+        }
+    }
+
+    const handleVerifyOtpAndRegisterUser = async({ email, password, enteredOtp }) => {
+        try{
+            const data = await verifyOtpAndRegisterUser({ email, password, enteredOtp });
+            setUser(data.user);
+        }
+        catch(err){
+            
+            throw new Error('Failed to verify OTP');
         }
     }
 
@@ -63,5 +73,5 @@ export const useAuth = () => {
     }, [])
     
 
-    return { user, loading, handleRegister, handleLogin, handleLogout }
+    return { user, loading, handleSendOtp, handleLogin, handleLogout, handleVerifyOtpAndRegisterUser }
 }

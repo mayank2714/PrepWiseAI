@@ -14,6 +14,7 @@ public class BlackListToken {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
+    @Column(columnDefinition = "TEXT")
     private String token;
     private Date expiryDate;
 }

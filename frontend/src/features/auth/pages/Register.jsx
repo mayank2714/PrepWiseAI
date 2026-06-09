@@ -3,25 +3,26 @@ import { useNavigate, Link } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 import { useToast } from "../../common/hooks/useToast";
 import Spinner from "../../common/components/Spinner";
-
+import { OtpModal } from "../components/OtpModal";
+// import "../styles/Register.scss";
 const Register = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { loading, handleRegister } = useAuth();
+  const { loading, handleSendOtp } = useAuth();
   const { showToast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showOtpModal, setShowOtpModal] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setIsSubmitting(true);
-      await handleRegister({ username, email, password });
-      showToast("Registration successful! Please login.", "success");
-      navigate("/login");
+      await handleSendOtp( {email} );
+      showToast("OTP sent successfully! Please check your email.", "success");
+      setShowOtpModal(true);
     } catch (error) {
-      showToast(error?.message || "Registration failed", "error");
+      showToast(error?.message || "Failed to send OTP", "error");
     } finally {
       setIsSubmitting(false);
     }
@@ -29,22 +30,11 @@ const Register = () => {
 
   return (
     <main>
-      <div className="form-container">
+      
+      {showOtpModal ? <OtpModal email={email} password={password} /> : <div className="form-container">
         <h1>Register</h1>
 
         <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="username">Username</label>
-            <input
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
-              type="text"
-              id="username"
-              name="username"
-              placeholder="Enter username"
-            />
-          </div>
           <div className="input-group">
             <label htmlFor="email">Email</label>
             <input
@@ -88,7 +78,7 @@ const Register = () => {
         <p>
           Already have an account? <Link to={"/login"}>Login</Link>{" "}
         </p>
-      </div>
+      </div>}
     </main>
   );
 };

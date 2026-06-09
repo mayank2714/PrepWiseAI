@@ -20,17 +20,16 @@ import java.util.Map;
 public class AuthController {
 
     private AuthService authService;
-    private AiService  aiService;
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> RegisterUser(@Valid @RequestBody RegisterRequest user){
+    public ResponseEntity<?> RegisterUser(@Valid @RequestBody RegisterRequest user){
 
         System.out.println("Register User");
-        String username = user.getUsername();
         String password = user.getPassword();
         String email = user.getEmail();
+        String otp = user.getEnteredOtp();
 
-        if (username == null || password == null || email == null ) {
+        if (password == null || email == null || otp == null) {
             throw new IllegalArgumentException(
                     "Please provide username, email and password");
         }

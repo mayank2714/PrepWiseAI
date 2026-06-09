@@ -1,0 +1,32 @@
+.resend-otp-container {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.resend-otp-timer {
+  font-size: 0.9rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.resend-otp-button {
+  background: transparent;
+//   border: 1px solid #d1d5db;
+  color: #e1034d;
+//   padding: 0.6rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+//   transition: all 0.2s ease;
+}
+
+.resend-otp-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.resend-otp-hint {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}

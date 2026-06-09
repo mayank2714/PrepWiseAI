@@ -5,10 +5,10 @@ const api = axios.create({
     withCredentials: true
 })
 
-export const register = async (registerData) => {
+export const sendOtp = async (otpData) => {
 
     try{
-        const response = await api.post('/api/auth/register', registerData)
+        const response = await api.post('/api/verify/send-otp', otpData)
         return response.data
     } catch (error) {
         console.log(error)
@@ -49,5 +49,16 @@ export const getMyProfile = async () =>{
     {
         console.log(err);
         throw new Error(err.response?.data?.message || 'Failed to fetch profile')
+    }
+}
+
+export const verifyOtpAndRegisterUser = async(registerData) => {
+    try{
+        const response = await api.post('/api/auth/register', registerData);
+        return response.data;
+    }
+    catch(err){
+        console.log(err);
+        throw new Error(err.response?.data?.message || 'Failed to verify OTP')
     }
 }

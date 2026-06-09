@@ -24,7 +24,7 @@ public class JwtService {
 
         return Jwts.builder()
                 .subject(user.getId())
-                .claim("username", user.getUsername())
+                .claim("email", user.getEmail())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 86400000))
                 .signWith(key)
@@ -47,7 +47,7 @@ public class JwtService {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
-                .get("username", String.class);
+                .get("email", String.class);
     }
 
     public boolean isTokenValid(String token) {

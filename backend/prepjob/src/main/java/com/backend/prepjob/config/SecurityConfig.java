@@ -41,7 +41,10 @@ public class SecurityConfig {
                                 "/api/report/",
                                 "/api/report/allReports",
                                 "/api/report/downloadResume/**",
-                                "/api/health"
+                                "/api/health",
+                                "/api/verify/send-otp",
+                                "/api/verify/verify-otp"
+
                         ).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 

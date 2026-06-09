@@ -29,31 +29,29 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final BlackListedTokenRepo blackListedTokenRepo;
-
-    public AuthService(UserRepo userRepo, PasswordEncoder passwordEncoder, JwtService jwtService, BlackListedTokenRepo blackListedTokenRepo) {
+    private final OtpService otpService;
+    public AuthService(UserRepo userRepo, PasswordEncoder passwordEncoder, JwtService jwtService, BlackListedTokenRepo blackListedTokenRepo, OtpService otpService) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.blackListedTokenRepo = blackListedTokenRepo;
+        this.otpService = otpService;
     }
 
-    public ResponseEntity<UserResponse> registerUser(@Valid RegisterRequest registerRequest) {
-        boolean userExists = userRepo.findByUsernameOrEmail(registerRequest.getUsername(), registerRequest.getEmail())
-                .isPresent();
+    public ResponseEntity<?> registerUser(@Valid RegisterRequest registerRequest) {
 
-        if (userExists){
-            throw new RuntimeException("User already exists");
-        }
+        boolean isVerified = otpService.verifyOtp(registerRequest.getEmail(), registerRequest.getEnteredOtp());
+        if (!isVerified)
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("Invalid OTP or OTP expired");
 
         User newUser = new User();
-        newUser.setUsername(registerRequest.getUsername());
         newUser.setEmail(registerRequest.getEmail());
         newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-
+        newUser.setVerified(true);
         User savedUser = userRepo.save(newUser);
 
         UserResponse userResponse = new UserResponse();
-        userResponse.setUserName(savedUser.getUsername());
         userResponse.setEmail(savedUser.getEmail());
         userResponse.setId(savedUser.getId());
 
@@ -73,7 +71,6 @@ public class AuthService {
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(userResponse);
 
-
     }
 
     public ResponseEntity<LoginResponse> loginUser(@Valid LoginRequest loginRequest) {
@@ -91,7 +88,6 @@ public class AuthService {
 
         userResponse.setEmail(existingUser.get().getEmail());
         userResponse.setId(existingUser.get().getId());
-        userResponse.setUserName(existingUser.get().getUsername());
 
         LoginResponse loginResponse = new LoginResponse("User logged in succesfully", userResponse);
 
@@ -140,16 +136,15 @@ public class AuthService {
                 .getAuthentication();
 
 
-        String username = authentication.getName();
+        String email = authentication.getName();
 
         User user = userRepo
-                .findByUsername(username)
+                .findByEmail(email)
                 .orElseThrow(() ->
                         new RuntimeException("User not found"));
 
         UserResponse userResponse = new UserResponse();
         userResponse.setId(user.getId());
-        userResponse.setUserName(user.getUsername());
         userResponse.setEmail(user.getEmail());
 
         return userResponse;

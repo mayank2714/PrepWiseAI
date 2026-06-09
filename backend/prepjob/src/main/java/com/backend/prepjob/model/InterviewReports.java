@@ -18,7 +18,6 @@ public class InterviewReports {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    private String username;
     private String userId;
 
     @Column(columnDefinition = "LONGTEXT")
