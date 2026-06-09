@@ -19,15 +19,15 @@ import java.util.Random;
 @Service
 public class OtpService {
 
-    private final OtpRepo otpRepo;
     private final JavaMailSender mailSender;
     private final UserRepo userRepo;
     private final StringRedisTemplate redisTemplate;
-    public OtpService(OtpRepo otpRepo, JavaMailSender mailSender, UserRepo userRepo, StringRedisTemplate redisTemplate) {
-        this.otpRepo = otpRepo;
+    private final EmailService emailService;
+    public OtpService(OtpRepo otpRepo, JavaMailSender mailSender, UserRepo userRepo, StringRedisTemplate redisTemplate, EmailService emailService) {
         this.mailSender = mailSender;
         this.userRepo = userRepo;
         this.redisTemplate = redisTemplate;
+        this.emailService = emailService;
     }
 
     public void generateOtp(String email) {
@@ -52,15 +52,7 @@ public class OtpService {
         redisTemplate.opsForValue().set(cooldown_key, String.valueOf(true), Duration.ofSeconds(30));
         redisTemplate.opsForValue().set(key, newOtp, Duration.ofMinutes(5));
 
-        sendOtpEmail(email, newOtp);
-    }
-
-    private void sendOtpEmail(String email, String newOtp) {
-        SimpleMailMessage mailMessage =  new SimpleMailMessage();
-        mailMessage.setTo(email);
-        mailMessage.setSubject("Your OTP code");
-        mailMessage.setText("Your OTP is : " + newOtp);
-        mailSender.send(mailMessage);
+        emailService.sendOtpEmail(email, newOtp);
     }
 
     public boolean verifyOtp(String email, String enteredOtp) {
