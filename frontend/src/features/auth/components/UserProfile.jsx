@@ -33,7 +33,7 @@ const UserProfile = () => {
       await handleLogout();
       setIsOpen(false);
     } catch (error) {
-      showToast(error?.message || "Failed to logout", "error");
+      showToast(error?.response?.data || "Failed to logout", "error");
     } finally {
       setIsLoggingOut(false);
     }

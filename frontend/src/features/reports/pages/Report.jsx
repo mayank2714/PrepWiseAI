@@ -146,7 +146,7 @@ const Report = () => {
       getReportById(reportId);
         }
         catch(err){
-            showToast(error?.message || "Failed to fetch report for the id : " + reportId, "error");
+            showToast(error?.response?.data || "Failed to fetch report for the id : " + reportId, "error");
         }
     }
   }, [reportId]);
@@ -156,7 +156,7 @@ const Report = () => {
       setIsDownloading(true);
       await getResumePdf(reportId);
     } catch (error) {
-      showToast(error?.message || "Failed to download resume", "error");
+      showToast(error?.response?.data || "Failed to download resume", "error");
     } finally {
       setIsDownloading(false);
     }

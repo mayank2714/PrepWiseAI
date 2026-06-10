@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "../styles/Home.scss";
 import { useReports } from "../hooks/useReports";
 import { useNavigate } from "react-router";
@@ -27,7 +27,7 @@ const Home = () => {
       });
       navigate(`/report/${data.id}`);
     } catch (error) {
-      showToast(error?.message || "Failed to generate report", "error");
+      showToast(error?.response?.data || "Failed to generate report", "error");
     } finally {
       setIsGenerating(false);
     }

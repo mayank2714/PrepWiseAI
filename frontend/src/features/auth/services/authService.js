@@ -11,8 +11,7 @@ export const sendOtp = async (otpData) => {
         const response = await api.post('/api/verify/send-otp', otpData)
         return response.data
     } catch (error) {
-        console.log(error)
-        throw new Error(error.response?.data?.message || 'Registration failed')
+        throw err;
     }
 }
 
@@ -23,8 +22,7 @@ export const login = async(loginData) => {
     }
     catch(err)
     {
-        console.log('received error');
-        throw new Error(err.response?.data?.message || 'Login failed')
+        throw err;  
     }
 }
 
@@ -35,8 +33,7 @@ export const logout = async() => {
     }
     catch(err)
     {
-        console.log(err);
-        throw new Error(err.response?.data?.message || 'Logout failed')
+        throw err;
     }   
 }
 
@@ -47,8 +44,7 @@ export const getMyProfile = async () =>{
     }
     catch(err)
     {
-        console.log(err);
-        throw new Error(err.response?.data?.message || 'Failed to fetch profile')
+        throw err;
     }
 }
 
@@ -58,7 +54,6 @@ export const verifyOtpAndRegisterUser = async(registerData) => {
         return response.data;
     }
     catch(err){
-        console.log(err);
-        throw new Error(err.response?.data?.message || 'Failed to verify OTP')
+        throw err;
     }
 }

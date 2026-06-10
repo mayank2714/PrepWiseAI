@@ -26,12 +26,11 @@ export const OtpModal = ({ email, password }) => {
         password,
         enteredOtp: otp,
       });
-
       showToast("Email verified successfully!", "success");
       navigate("/login");
     } catch (error) {
       console.log(error);
-      showToast(error?.message || "Invalid OTP or OTP expired", "error");
+      showToast(error?.response?.data || "Invalid OTP or OTP expired", "error");
     } finally {
       setIsVerifyingOtp(false);
     }
@@ -55,7 +54,7 @@ export const OtpModal = ({ email, password }) => {
       showToast("OTP resent successfully!", "success");
       setResendTimer(30);
     } catch (error) {
-      showToast(error?.message || "Failed to resend OTP", "error");
+      showToast(error?.response?.data || "Failed to resend OTP", "error");
     } finally {
       setIsResendingOtp(false);
     }

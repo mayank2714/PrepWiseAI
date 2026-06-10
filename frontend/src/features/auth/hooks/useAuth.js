@@ -16,7 +16,7 @@ export const useAuth = () => {
             const data = await login({ email, password })
             setUser(data.user)
         } catch (err) {
-            throw new Error('Login failed')
+            throw err;
         } finally {
             setLoading(false)
         }
@@ -27,7 +27,7 @@ export const useAuth = () => {
         try {
             await sendOtp( {email} );
         } catch (err) {
-            throw new Error('Failed to send OTP')
+            throw err;
         } finally {
             setLoading(false)
         }
@@ -39,8 +39,7 @@ export const useAuth = () => {
             setUser(data.user);
         }
         catch(err){
-            
-            throw new Error('Failed to verify OTP');
+            throw err;
         }
     }
 
@@ -50,7 +49,7 @@ export const useAuth = () => {
             const data = await logout()
             setUser(null)
         } catch (err) {
-
+            throw err;
         } finally {
             setLoading(false)
         }

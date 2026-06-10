@@ -23,7 +23,7 @@ export const useReports = () => {
             setReport(response)
         } catch (error) {
             console.log(error)
-            throw new Error("Failed to generate report");
+            throw error;
         } finally {
             setLoading(false)
         }
@@ -39,7 +39,7 @@ export const useReports = () => {
             setReport(response)
         } catch (error) {
             console.log(error)
-            throw new Error("Failed to fetch report for the id : " + reportId);
+            throw error;
         } finally {
             setLoading(false)
         }
@@ -54,7 +54,7 @@ export const useReports = () => {
             setReports(response)
         } catch (error) {
             console.log(error)
-            
+            throw error;
         } finally {
             setLoading(false)
         }
@@ -76,7 +76,7 @@ export const useReports = () => {
         }
         catch (error) {
             console.log(error)
-            throw new Error("Failed to download resume PDF");
+            throw error;
         } finally {
             // setLoading(false)
         }

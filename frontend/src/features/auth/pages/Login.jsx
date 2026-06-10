@@ -21,7 +21,7 @@ const Login = () => {
       await handleLogin({ email, password });
       navigate("/");
     } catch (error) {
-      showToast(error?.message || "Login failed", "error");
+      showToast(error?.response?.data || "Login failed", "error");
     } finally {
       setIsSubmitting(false);
     }
