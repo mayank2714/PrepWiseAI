@@ -1,31 +1,36 @@
 package com.backend.prepjob.service;
 
-import com.resend.Resend;
-import com.resend.core.exception.ResendException;
-import com.resend.services.emails.model.CreateEmailOptions;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
-    private final Resend resend;
+    private final JavaMailSender javaMailSender;
+    private String fromEmail = "noreply.prepwiseai@gmail.com";
 
-    public EmailService(@Value("${resend.api.key}") String apiKey) {
-        this.resend = new Resend(apiKey);
+
+    public EmailService(JavaMailSender javaMailSender) {
+        this.javaMailSender = javaMailSender;
     }
+
 
     public void sendOtpEmail(String email, String otp){
 
         try{
-            CreateEmailOptions params = CreateEmailOptions.builder()
-                    .from("PrepWiseAI <onboarding@resend.dev>")
-                    .to(email)
-                    .subject("Your otp code ")
-                    .html("<h2>Your OTP is: " + otp + "</h2><p>This OTP is valid for 5 minutes.</p>")
-                    .build();
-            resend.emails().send(params);
-        } catch (ResendException e) {
-            throw new RuntimeException("Failed to send email", e);
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+            helper.setFrom("PrepWiseAI <" + fromEmail + ">");
+            helper.setTo(email);
+            helper.setSubject("Your OTP code to verify on PrepWiseAI");
+            helper.setText("<h2>Your OTP is: " + otp + "</h2><p>This OTP is valid for 5 minutes.</p>", true);
+            javaMailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
         }
     }
 }
